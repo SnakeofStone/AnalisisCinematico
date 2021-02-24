@@ -47,8 +47,6 @@ def DH_Matrix(DH_Params):
 
     MT = np.linalg.multi_dot(MT_n)
 
-    V = linearVelocity(MT_n, MT)
-
 """
 Create a single matrix to concatenate to the principal array
 """
@@ -92,7 +90,7 @@ def Analysis(filename="AnalisisVelocidad/data.json"):
     data = readDataFromFile(filename)
 
     dh_params = data["dh_params"]
-    vel = data["velocity"]
+    q_dot = data["q_dot"]
     degType = data["degType"]
 
     DH_Matrix(dh_params)
