@@ -15,8 +15,12 @@ In file:
 - degType: 1=revolution, 0=prismatic
 """
 def readDataFromFile(file):
-    with open(file, 'r') as dataFile:
-        data = json.load(dataFile)
+    try:
+        with open(file, 'r') as dataFile:
+            data = json.load(dataFile)
+    except json.decoder.JSONDecodeError:
+        print("Error: Invalid JSON file format")
+        exit(-1)
 
     return data
 
@@ -48,7 +52,7 @@ Return the matrix of Zn
 """
 def getZn(numDeg, MT_n):
     Zn = np.zeros((3, numDeg), np.single)
-    
+
     Zn[2][0] = 1
     for col in range(numDeg - 1):
         for line in range(3):
