@@ -24,10 +24,9 @@ def readDataFromFile(file):
 Create array of matrices from DH
 - return: MT_n = Array of matrices (3D matrix)
 """
-def DH_Matrix(DH_Params):
-    numberDegree = int(len(DH_Params)/4)
+def DH_Matrix(DH_Params, numDeg):
     try:
-        dh = np.array(DH_Params).reshape(numberDegree, 4)
+        dh = np.array(DH_Params).reshape(numDeg, 4)
     except:
         print("Error while converting to matrix")
         exit(-1)
@@ -38,8 +37,8 @@ def DH_Matrix(DH_Params):
     # Convert from deg to rad
     dh = degToRad(dh)
 
-    MT_n = np.zeros([numberDegree, 4, 4]).astype(np.single)
-    for vec in range(numberDegree):
+    MT_n = np.zeros([numDeg, 4, 4]).astype(np.single)
+    for vec in range(numDeg):
         MT_n[vec] = dh_single(dh[vec])
 
     return MT_n
@@ -120,7 +119,9 @@ def Analysis(filename="AnalisisVelocidad/data.json"):
     q_dot = data["q_dot"]
     degType = data["degType"]
 
-    MT_n = DH_Matrix(dh_params)
+    numberDegree = int(len(dh_params)/4)
+
+    MT_n = DH_Matrix(dh_params, numberDegree)
     MT = np.linalg.multi_dot(MT_n)
 
     Zn = getZn(numberDegree, MT_n)
