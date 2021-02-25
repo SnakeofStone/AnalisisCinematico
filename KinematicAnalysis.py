@@ -22,7 +22,7 @@ def readDataFromFile(file):
 
 """
 Create array of matrices from DH
-- return: Array of matrices (3D matrix)
+- return: MT_n = Array of matrices (3D matrix)
 """
 def DH_Matrix(DH_Params):
     numberDegree = int(len(DH_Params)/4)
@@ -35,9 +35,6 @@ def DH_Matrix(DH_Params):
     # Define matrix as single point precision
     dh = dh.astype(np.single)
 
-    # Print input DH matrix
-    #print("DH:\n{}".format(dh))
-
     # Convert from deg to rad
     dh = degToRad(dh)
 
@@ -45,7 +42,35 @@ def DH_Matrix(DH_Params):
     for vec in range(numberDegree):
         MT_n[vec] = dh_single(dh[vec])
 
-    MT = np.linalg.multi_dot(MT_n)
+    return MT_n
+
+"""
+Return the matrix of Zn
+"""
+def getZn(numDeg, MT_n):
+    Zn = np.zeros((3, numDeg), np.single)
+    
+    Zn[2][0] = 1
+    for col in range(numDeg - 1):
+        for line in range(3):
+            Zn[line][col+1] = MT_n[col][line][2]
+
+    return Zn
+
+"""
+Return the matrix On
+"""
+def getOn(numDeg, MT, MT_n):
+    On = np.zeros((3, numDeg+1), np.single)
+
+    for col in range(numDeg - 2):
+        for line in range(3):
+            On[line][col+1] = MT_n[col][line][3]
+
+    for line in range(3):
+        On[line][numDeg] = MT[line][3]
+
+    return np.around(On, decimals=3)
 
 """
 Create a single matrix to concatenate to the principal array
@@ -74,11 +99,13 @@ def degToRad(mat):
     return mat
 
 """
+Compute the linear velocity of the robot
 """
 def linearVelocity(matrices, MT):
     pass
 
 """
+Compute the angular velocity of the robot
 """
 def angularVelocity(matrices, MT, degType):
     pass
@@ -93,7 +120,11 @@ def Analysis(filename="AnalisisVelocidad/data.json"):
     q_dot = data["q_dot"]
     degType = data["degType"]
 
-    DH_Matrix(dh_params)
+    MT_n = DH_Matrix(dh_params)
+    MT = np.linalg.multi_dot(MT_n)
+
+    Zn = getZn(numberDegree, MT_n)
+    On = getOn(numberDegree, MT, MT_n)
 
 if __name__ == "__main__":
     Analysis()
