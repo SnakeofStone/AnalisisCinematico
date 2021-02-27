@@ -145,7 +145,7 @@ def printResults(v, w):
 """
 Main function
 """
-def Analysis(filename="AnalisisVelocidad/seiko.json"):
+def Analysis(filename="data.json"):
     data = readDataFromFile(filename)
 
     dh_params = data["dh_params"]
