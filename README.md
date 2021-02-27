@@ -16,7 +16,7 @@ input file.
 ## Installation
 
 Create a virtual environment by running
-> python3 -m pyvenv <name_of_virtual_environment>
+> python3 -m venv <name_of_virtual_environment>
 
 Then update the pip installer
 > pip install --upgrade pip
