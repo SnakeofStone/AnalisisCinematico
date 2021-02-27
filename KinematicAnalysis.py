@@ -117,7 +117,7 @@ def angularJacobian(degType, numDeg, Zn):
     Jw = np.zeros([numDeg, 3], np.single)
 
     for vec in range(numDeg):
-        Jw[vec] = degType[vec]*Zn[vec]
+        Jw[vec] = (degType[vec] % 2)*Zn[vec]
 
     return Jw
 
@@ -139,8 +139,8 @@ def angularVelocity(Jw, q_dot):
 Print results of linear and angular velocity
 """
 def printResults(v, w):
-    print("Linear velocity:\n{}\n".format(v))
-    print("Angular velocity:\n{}\n".format(w))
+    print("Linear velocity:\n{} m/s\n".format(v))
+    print("Angular velocity:\n{} rad/s\n".format(w))
 
 """
 Main function
@@ -150,7 +150,7 @@ def Analysis(filename="data.json"):
 
     dh_params = data["dh_params"]
     q_dot = data["q_dot"]
-    degType = data["degType"] % 2
+    degType = data["degType"]
 
     numberDegree = int(len(dh_params)/4)
 
