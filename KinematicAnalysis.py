@@ -150,7 +150,7 @@ def Analysis(filename="data.json"):
 
     dh_params = data["dh_params"]
     q_dot = data["q_dot"]
-    degType = data["degType"]
+    degType = data["degType"] % 2
 
     numberDegree = int(len(dh_params)/4)
 
