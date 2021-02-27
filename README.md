@@ -18,6 +18,9 @@ input file.
 Create a virtual environment by running
 > python3 -m venv <name_of_virtual_environment>
 
+Source the virtual environment created by running
+> source <name_of_virtual_environment>/bin/activate
+
 Then update the pip installer
 > pip install --upgrade pip
 
